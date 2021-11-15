@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load fit_tags %}
+
+{% block title %}{{ session.date_time|date:"l, d M Y" }}{% endblock %}
+{% block subtitle %}{{ session.date_time|date:"H:i" }} to  {{ session|end_time|date:"H:i" }}{% endblock %}
+
+{% block content %}
+<form class="container" method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="d-grid gap-2">
+        <input class="btn btn-dark mt-auto" type="submit" value="Sign Up">
+    </div>
+</form>
+{% endblock %}

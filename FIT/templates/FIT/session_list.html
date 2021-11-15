@@ -1,10 +1,28 @@
 {% extends "base.html" %}
+{% load fit_tags %}
+
+{% block title %}Buddy VFIT PROCOM{% endblock %}
+{% block subtitle %}Book a session{% endblock %}
 
 {% block content %}
-    <h2>Sessions</h2>
-    <ul>
-        {% for session in sessions %}
-            <li>{{ session }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container px-4 px-lg-5 mt-5">
+        <ul class="list-group">
+            {% for session in sessions %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="ms-2">
+                    <div class="fw-bold">{{ session.date_time|date:"l, d M Y" }}</div>
+                    <div class="text-end">
+                        <span class="fw-bold">{{ session.date_time|date:"H:i" }}</span>
+                        <small class="fw-light">to {{ session|end_time|date:"H:i" }}</small>
+                    </div>
+                </div>
+                <div class="ms-2">
+                    <span class="badge bg-success">{{ session.available_count }}</span>
+                    available
+                </div>
+                <a class="btn btn-outline-dark mt-auto" href="{% url 'participate' session.id %}">Book Now</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

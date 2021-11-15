@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load fit_tags %}
+
+{% block title %}Sign Up Successful!{% endblock %}
+{% block subtitle %}See you on {{ session.date_time|date:"l, d M Y" }} at {{ session.date_time|date:"H:i" }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <legend>Session Details</legend>
+    <div class="mb-2 row py-2">
+        <label for="session_datetime" class="col-md-2">Date and Time:</label>
+        <div class="col-md-10" id="session_datetime">
+            {{ session.date_time|date:"l, d M Y" }}, {{ session.date_time|date:"H:i" }}
+        </div>
+    </div>
+    <div class="mb-2 row py-2">
+        <div class="col-md-6">
+            <div class="row">
+                <label for="session_conducting" class="col-md-4">Conducting:</label>
+                <div class="col-md-8" id="session_conducting">
+                    {{ session.conducting }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <label for="session_safety" class="col-md-4">Safety:</label>
+                <div class="col-md-8" id="session_safety">
+                    {{ session.safety }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-2 row py-2">
+        <label for="session_call_link" class="col-md-2">Call Link:</label>
+        <div class="col-md-10" id="session_call_link">
+            <a href="{{ session.call_link }}" target="_blank">{{ session.call_link }}</a>
+        </div>
+    </div>
+    <div class="mb-2 row py-2">
+        <label for="session_instructions" class="col-md-2">Instructions:</label>
+        <div class="col-md-10" id="session_instructions">
+            {{ session.instructions }}
+        </div>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <legend>Update Your Particulars</legend>
+            {{ form|crispy }}
+        <div class="d-flex justify-content-end">
+            <input class="btn btn-dark mt-auto" type="submit" value="Update Particulars">
+        </div>
+    </form>
+    <br>
+</div>
+{% endblock %}
