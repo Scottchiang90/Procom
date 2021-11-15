@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'SINGAPORE'
+TIME_ZONE = 'Asia/Singapore'
 
 USE_I18N = True
 
