@@ -7,7 +7,18 @@
 
 {% block content %}
 <div class="container">
-    <legend>Session Details</legend>
+    <!--- Participant --->
+    <form method="post">
+        {% csrf_token %}
+        <legend class="fw-bold">Update Your Particulars</legend>
+            {{ form|crispy }}
+        <div class="d-flex justify-content-end">
+            <input class="btn btn-dark mt-auto" type="submit" value="Update Particulars">
+        </div>
+    </form>
+
+    <!--- Session --->
+    <legend class="fw-bold">Session Details</legend>
     <div class="mb-2 row py-2">
         <label for="session_datetime" class="col-md-2">Date and Time:</label>
         <div class="col-md-10" id="session_datetime">
@@ -15,7 +26,7 @@
         </div>
     </div>
     <div class="mb-2 row py-2">
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="row">
                 <label for="session_conducting" class="col-md-4">Conducting:</label>
                 <div class="col-md-8" id="session_conducting">
@@ -23,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="row">
                 <label for="session_safety" class="col-md-4">Safety:</label>
                 <div class="col-md-8" id="session_safety">
@@ -44,15 +55,5 @@
             {{ session.instructions }}
         </div>
     </div>
-
-    <form method="post">
-        {% csrf_token %}
-        <legend>Update Your Particulars</legend>
-            {{ form|crispy }}
-        <div class="d-flex justify-content-end">
-            <input class="btn btn-dark mt-auto" type="submit" value="Update Particulars">
-        </div>
-    </form>
-    <br>
 </div>
 {% endblock %}

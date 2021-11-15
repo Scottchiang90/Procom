@@ -61,6 +61,7 @@ class PostParticipateDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['session'] = self.participation.session
         context['participation'] = self.participation
+        context['num_participation'] = Participation.objects.filter(participant__id=self.object.id).count()
         return context
 
 
@@ -98,3 +99,9 @@ class MyParticipationListView(ListView):
         else:
             object_list = self.model.objects.none()
         return object_list
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context['nav_page'] = 'my_sessions'
+        return context

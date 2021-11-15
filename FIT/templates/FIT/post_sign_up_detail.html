@@ -8,7 +8,7 @@
 {% block content %}
 <div class="container">
     <!--- Session --->
-    <legend>Session Details</legend>
+    <legend class="fw-bold">Session Details</legend>
     <div class="mb-2 row py-2">
         <label for="session_datetime" class="col-md-2">Date and Time:</label>
         <div class="col-md-10" id="session_datetime">
@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="mb-2 row py-2">
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="row">
                 <label for="session_conducting" class="col-md-4">Conducting:</label>
                 <div class="col-md-8" id="session_conducting">
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="row">
                 <label for="session_safety" class="col-md-4">Safety:</label>
                 <div class="col-md-8" id="session_safety">
@@ -47,7 +47,7 @@
     </div>
 
     <br><!--- Participant --->
-    <legend>Your Particulars</legend>
+    <legend class="fw-bold">Your Particulars</legend>
     <div class="mb-2 row py-2">
         <label for="participant_uid" class="col-md-2">Buddy FIT UID:</label>
         <div class="col-md-10" id="participant_uid">
@@ -61,7 +61,7 @@
         </div>
     </div>
     <div class="mb-2 row py-2">
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="row">
                 <label for="participant_unit" class="col-md-4">Unit:</label>
                 <div class="col-md-8" id="participant_unit">
@@ -69,9 +69,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-6">
             <div class="row">
-                <label for="participant_nric" class="col-md-4">NRIC (Last 4 characters):</label>
+                <label for="participant_nric" class="col-md-4">NRIC:</label>
                 <div class="col-md-8" id="participant_nric">
                     {{ object.nric }}
                 </div>
@@ -79,21 +79,21 @@
         </div>
     </div>
     <div class="mb-2 row py-2">
-        <div class="col-md-6">
-            <div class="row">
-                <label for="participant_email" class="col-md-4">Email:</label>
-                <div class="col-md-8" id="participant_email">
-                    {{ object.email }}
-                </div>
-            </div>
+        <label for="participant_email" class="col-md-2">Email:</label>
+        <div class="col-md-10" id="participant_email">
+            {{ object.email }}
         </div>
-        <div class="col-md-6">
-            <div class="row">
-                <label for="participant_mobile" class="col-md-4">Mobile Number:</label>
-                <div class="col-md-8" id="participant_mobile">
-                    {{ object.mobile_number }}
-                </div>
-            </div>
+    </div>
+    <div class="mb-2 row py-2">
+        <label for="participant_mobile" class="col-md-2">Mobile Number:</label>
+        <div class="col-md-10" id="participant_mobile">
+            {{ object.mobile_number }}
+        </div>
+    </div>
+    <div class="mb-2 row py-2 fw-bold">
+        <label for="num_of_participations" class="col-md-2">Sessions registered:</label>
+        <div class="col-md-10" id="num_of_participations">
+            {{ num_participation }}
         </div>
     </div>
 
@@ -102,6 +102,5 @@
         <a class="btn btn-secondary mt-auto" href="{% url 'post-participate-update' participation.id %}" role="button">Update Particulars</a>
         <a class="btn btn-dark mt-auto" href="{% url 'index' %}" role="button">OK</a>
     </div>
-    <br>
 </div>
 {% endblock %}

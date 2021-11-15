@@ -13,22 +13,34 @@
    <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand">PROCOM</a>
+                <a class="navbar-brand" href="{% url 'index' %}">PROCOM</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'index' %}">VFIT</a></li>
+                        <li class="nav-item">
+                            {% if not nav_page %}
+                            <a class="nav-link active" aria-current="page" href="{% url 'index' %}">VFIT</a>
+                            {% else %}
+                            <a class="nav-link" href="{% url 'index' %}">VFIT</a>
+                            {% endif %}
+                        </li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Admin</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'my-sessions' %}">My Sessions</a></li>
+                        <li class="nav-item">
+                            {% if nav_page == 'my_sessions' %}
+                            <a class="nav-link active" aria-current="page" href="{% url 'my-sessions' %}">My Sessions</a>
+                            {% else %}
+                            <a class="nav-link" href="{% url 'my-sessions' %}">My Sessions</a>
+                            {% endif %}
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
         <!-- Header-->
         <header class="bg-dark py-2">
-            <div class="container px-4 px-lg-5 my-5">
+            <div class="container px-4 px-lg-5 my-3">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">{% block title %}{% endblock %}</h1>
+                    <h1 class="display-5 fw-bolder">{% block title %}{% endblock %}</h1>
                     <p class="lead fw-normal text-white-50 mb-0">{% block subtitle %}{% endblock %}</p>
                 </div>
             </div>
@@ -38,8 +50,8 @@
           {% block content %}{% endblock %}
         </section>
         <!-- Footer-->
-        <footer class="fixed-bottom mt-auto bg-dark py-3">
+        <!--<footer class="fixed-bottom mt-auto bg-dark py-2">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Scott Chiang 2021</p></div>
-        </footer>
+        </footer>-->
   </body>
 </html>

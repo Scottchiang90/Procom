@@ -19,7 +19,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div class="ms-2">
                         <div class="fw-bold">{{ participation.session.date_time|date:"l, d M Y" }}</div>
-                        <div class="text-end">
+                        <div class="text-start">
                             <span class="fw-bold">{{ participation.session.date_time|date:"H:i" }}</span>
                             <small class="fw-light">to {{ participation.session|end_time|date:"H:i" }}</small>
                         </div>
@@ -28,7 +28,7 @@
                          <span class="badge bg-dark">{{ participation.session.conducting }}</span>
                     </div>
                     <div class="ms-2">
-                        <a href="{{ participation.session.call_link }}" target="_blank">{{ participation.session.call_link }}</a>
+                        <a class="btn btn-outline-dark mt-auto" href="{{ participation.session.call_link }}" target="_blank">Join Now</a>
                     </div>
                 </li>
                 {% endfor %}
