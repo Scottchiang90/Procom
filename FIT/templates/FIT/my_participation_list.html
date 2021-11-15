@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load fit_tags %}
+
+{% block title %}My Sessions{% endblock %}
+{% block subtitle %}Find your previous VFIT participation{% endblock %}
+
+{% block content %}
+    <div class="container px-4 px-lg-5 mt-5">
+        <form class="d-flex">
+            <input class="form-control me-2" type="text" name="uid"
+                   value='{{ request.GET.uid }}' placeholder="Buddy FIT UID" aria-label="Search">
+            <button class="btn btn-dark" type="submit">Search</button>
+        </form>
+        {% if participations %}
+        <div class="my-5">
+            <h3>Your Sessions</h3>
+            <ul class="list-group mt-3">
+                {% for participation in participations %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="ms-2">
+                        <div class="fw-bold">{{ participation.session.date_time|date:"l, d M Y" }}</div>
+                        <div class="text-end">
+                            <span class="fw-bold">{{ participation.session.date_time|date:"H:i" }}</span>
+                            <small class="fw-light">to {{ participation.session|end_time|date:"H:i" }}</small>
+                        </div>
+                    </div>
+                    <div class="ms-2">
+                         <span class="badge bg-dark">{{ participation.session.conducting }}</span>
+                    </div>
+                    <div class="ms-2">
+                        <a href="{{ participation.session.call_link }}" target="_blank">{{ participation.session.call_link }}</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -9,9 +9,6 @@ from FIT.models import Session, Participation, Participant
 
 class SessionListView(ListView):
     model = Session
-    queryset = Session.objects.filter(date_time__gt=timezone.now())\
-        .annotate(available_count=F('capacity')-Count('participants'))\
-        .order_by('date_time')
     context_object_name = 'sessions'
 
     def get_queryset(self):
@@ -87,3 +84,17 @@ class PostParticipateUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('post-participate', args=(self.participation.id,))
+
+
+class MyParticipationListView(ListView):
+    model = Participation
+    template_name = 'FIT/my_participation_list.html'
+    context_object_name = 'participations'
+
+    def get_queryset(self):
+        query = self.request.GET.get('uid')
+        if query:
+            object_list = self.model.objects.filter(participant__uid=query)
+        else:
+            object_list = self.model.objects.none()
+        return object_list
