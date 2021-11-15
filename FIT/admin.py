@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from FIT.forms import AdminParticipationForm
+from FIT.mixins import ExportCsvMixin
 from FIT.models import Facilitator, Participant, Session, Participation
 
 
@@ -19,11 +20,12 @@ class ParticipantAdmin(admin.ModelAdmin):
 
 
 @admin.register(Participation)
-class ParticipationAdmin(admin.ModelAdmin):
+class ParticipationAdmin(admin.ModelAdmin, ExportCsvMixin):
     form = AdminParticipationForm
     list_display = ('session', 'participant', 'created_datetime')
     search_fields = ('session__date_time', 'participant__name')
     list_filter = ('session',)
+    actions = ["export_as_csv"]
 
 
 @admin.register(Session)
