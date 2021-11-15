@@ -1,4 +1,4 @@
-from django.core.exceptions import NON_FIELD_ERRORS
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
 from django.forms import ModelForm, CharField, HiddenInput, TextInput
 
 from FIT.models import Participation, Participant, Session
@@ -26,11 +26,15 @@ class ParticipateForm(ModelForm):
                 self.fields['session'].disabled = True
 
     def clean(self):
+        super().clean()
         participant, created = Participant.objects.get_or_create(
             uid=self.cleaned_data['uid']
         )
         self.cleaned_data['participant'] = participant
-        return super(ParticipateForm, self).clean()
+        this_session = self.cleaned_data['session']
+        num_of_sign_ups = Participation.objects.filter(session=this_session).count()
+        if num_of_sign_ups >= this_session.capacity:
+            raise ValidationError('Sorry this session is fully booked.', code='exceed capacity')
 
 
 class PostParticipateUpdateForm(ModelForm):
@@ -46,3 +50,22 @@ class PostParticipateUpdateForm(ModelForm):
         self.fields['unit'].required = True
         self.fields['nric'].required = True
         self.fields['email'].required = True
+
+
+class AdminParticipationForm(ModelForm):
+
+    class Meta:
+        model = Participation
+        fields = '__all__'
+        error_messages = {
+            NON_FIELD_ERRORS: {
+                'unique_together': "This participant have already signed up for this session.",
+            }
+        }
+
+    def clean(self):
+        super().clean()
+        num_of_sign_ups = Participation.objects\
+            .filter(session=self.cleaned_data['session']).count()
+        if num_of_sign_ups >= self.cleaned_data['session'].capacity:
+            raise ValidationError('Sorry this session is fully booked.', code='exceed capacity')

@@ -17,11 +17,17 @@
                     </div>
                 </div>
                 <div class="ms-2">
+                    {% if session.available_count > 0 %}
                     <span class="badge bg-success">{{ session.available_count }}</span>
                     available
+                    {% else %}
+                    <span class="badge bg-danger">Fully Booked</span>
+                    {% endif %}
                 </div>
                 <div class="ms-2">
+                    {% if session.available_count > 0 %}
                     <a class="btn btn-outline-dark mt-auto" href="{% url 'participate' session.id %}">Book Now</a>
+                    {% endif %}
                 </div>
             </li>
             {% endfor %}

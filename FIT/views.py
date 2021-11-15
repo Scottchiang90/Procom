@@ -1,4 +1,5 @@
 from django.db.models import Count, F
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
@@ -42,6 +43,13 @@ class ParticipateView(CreateView):
         if self.object.participant.name:
             return reverse_lazy('post-participate', args=(self.object.id,))
         return reverse_lazy('post-participate-update', args=(self.object.id,))
+
+    def get(self, request, *args, **kwargs):
+        num_of_sign_ups = Participation.objects \
+            .filter(session__id=self.kwargs['session_id']).count()
+        if num_of_sign_ups >= self.get_session().capacity:
+            return redirect('index')
+        return super().get(request, *args, **kwargs)
 
 
 class PostParticipateDetailView(DetailView):
