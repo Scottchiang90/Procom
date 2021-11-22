@@ -22,10 +22,14 @@ class ParticipantAdmin(admin.ModelAdmin):
 @admin.register(Participation)
 class ParticipationAdmin(admin.ModelAdmin, ExportCsvMixin):
     form = AdminParticipationForm
-    list_display = ('session', 'participant', 'created_datetime')
+    list_display = ('session', 'participant', 'attended', 'created_datetime')
     search_fields = ('session__date_time', 'participant__name')
     list_filter = ('session',)
-    actions = ["export_as_csv"]
+    actions = ['export_as_csv', 'make_published']
+
+    @admin.action(description='Mark selected as attended')
+    def make_published(self, request, queryset):
+        queryset.update(attended=True)
 
 
 @admin.register(Session)

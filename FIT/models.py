@@ -30,7 +30,7 @@ class Participant(Person):
     nric = models.CharField(max_length=4, verbose_name="NRIC (Last 4 characters)", blank=True)
 
     def __str__(self):
-        return self.name
+        return self.name if self.name else self.uid
 
 
 class Session(models.Model):
@@ -51,6 +51,7 @@ class Session(models.Model):
 class Participation(models.Model):
     session = models.ForeignKey(Session, on_delete=models.PROTECT)
     participant = models.ForeignKey(Participant, on_delete=models.PROTECT)
+    attended = models.BooleanField(default=False)
     created_datetime = models.DateTimeField(auto_now=True)
 
     class Meta:

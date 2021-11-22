@@ -64,8 +64,10 @@ class AdminParticipationForm(ModelForm):
         }
 
     def clean(self):
-        super().clean()
-        num_of_sign_ups = Participation.objects\
-            .filter(session=self.cleaned_data['session']).count()
-        if num_of_sign_ups >= self.cleaned_data['session'].capacity:
-            raise ValidationError('Sorry this session is fully booked.', code='exceed capacity')
+        cleaned_data = super().clean()
+        new_session = cleaned_data.get('session')
+        if self.instance.session != new_session:
+            num_of_sign_ups = Participation.objects\
+                .filter(session=cleaned_data['session']).count()
+            if num_of_sign_ups >= cleaned_data['session'].capacity:
+                raise ValidationError('Sorry this session is fully booked.', code='exceed capacity')
