@@ -104,7 +104,7 @@ class MyParticipationListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('uid')
         if query:
-            object_list = self.model.objects.filter(participant__uid=query.upper())
+            object_list = self.model.objects.filter(participant__uid=query.upper()).order_by('-session__date_time')
             self.sessions_attended = object_list.filter(attended=True).count()
         else:
             object_list = self.model.objects.none()
