@@ -99,11 +99,13 @@ class MyParticipationListView(ListView):
     model = Participation
     template_name = 'FIT/my_participation_list.html'
     context_object_name = 'participations'
+    sessions_attended = 0
 
     def get_queryset(self):
         query = self.request.GET.get('uid')
         if query:
             object_list = self.model.objects.filter(participant__uid=query.upper())
+            self.sessions_attended = object_list.filter(attended=True).count()
         else:
             object_list = self.model.objects.none()
         return object_list
@@ -112,4 +114,5 @@ class MyParticipationListView(ListView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         context['nav_page'] = 'my_sessions'
+        context['sessions_attended'] = self.sessions_attended
         return context
