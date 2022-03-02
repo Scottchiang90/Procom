@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin import display
 
 from FIT.forms import AdminParticipationForm
 from FIT.mixins import ExportCsvMixin
@@ -14,7 +15,7 @@ class FacilitatorAdmin(admin.ModelAdmin):
 
 @admin.register(Participant)
 class ParticipantAdmin(admin.ModelAdmin):
-    list_display = ('name', 'uid', 'nric', 'unit', 'email', 'mobile_number')
+    list_display = ('uid', 'name', 'nric', 'unit', 'email', 'mobile_number')
     search_fields = ('name', 'uid', 'nric',)
     list_filter = ('unit',)
 
@@ -22,7 +23,7 @@ class ParticipantAdmin(admin.ModelAdmin):
 @admin.register(Participation)
 class ParticipationAdmin(admin.ModelAdmin, ExportCsvMixin):
     form = AdminParticipationForm
-    list_display = ('session', 'participant', 'attended', 'created_datetime')
+    list_display = ('session', 'participant', 'get_uid', 'attended', 'created_datetime')
     search_fields = ('session__date_time', 'participant__name')
     list_filter = ('session',)
     actions = ['export_as_csv', 'make_published']
@@ -30,6 +31,10 @@ class ParticipationAdmin(admin.ModelAdmin, ExportCsvMixin):
     @admin.action(description='Mark selected as attended')
     def make_published(self, request, queryset):
         queryset.update(attended=True)
+
+    @display(description='UID')
+    def get_uid(self, obj):
+        return obj.participant.uid
 
 
 @admin.register(Session)
