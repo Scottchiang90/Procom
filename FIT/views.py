@@ -13,7 +13,7 @@ class SessionListView(ListView):
     context_object_name = 'sessions'
 
     def get_queryset(self):
-        return Session.objects.filter(date_time__gt=timezone.now())\
+        return Session.objects.filter(date_time__gt=timezone.now() - timezone.timedelta(minutes=10))\
             .annotate(available_count=F('capacity')-Count('participants'))\
             .order_by('date_time')
 
