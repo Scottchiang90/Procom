@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
@@ -26,7 +27,8 @@ class Facilitator(models.Model):
 
 
 class Participant(Person):
-    uid = models.CharField(max_length=20, verbose_name="Buddy FIT UID", unique=True)
+    uid = models.CharField(max_length=20, verbose_name="Buddy FIT UID", unique=True,
+                           validators=[RegexValidator('^[A-Z0-9]*$', 'Only uppercase letters and numbers allowed.')])
     nric = models.CharField(max_length=4, verbose_name="NRIC (Last 4 characters)", blank=True)
 
     def __str__(self):

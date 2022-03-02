@@ -25,6 +25,9 @@ class ParticipateForm(ModelForm):
             if kwargs['initial']['session']:
                 self.fields['session'].disabled = True
 
+    def clean_uid(self):
+        return self.cleaned_data['uid'].upper()
+
     def clean(self):
         super().clean()
         participant, created = Participant.objects.get_or_create(

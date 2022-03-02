@@ -103,7 +103,7 @@ class MyParticipationListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('uid')
         if query:
-            object_list = self.model.objects.filter(participant__uid=query)
+            object_list = self.model.objects.filter(participant__uid=query.upper())
         else:
             object_list = self.model.objects.none()
         return object_list
